@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
+import api from "../api/api";
 
 function RegisterDetails() {
     const [registers, setRegisters] = useState([]);
@@ -10,7 +10,7 @@ function RegisterDetails() {
     const fetchRegister = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/register`);
+            const response = await api.get(`http://localhost:8080/api/register`);
             setRegisters(response.data.data || response.data);
         } catch (error) {
             console.error("Failed to load:", error);
@@ -28,7 +28,7 @@ function RegisterDetails() {
     };
 
     const handleHome = () => {
-        navigate('/');
+        navigate('/home');
     };
 
     if (loading) return <div style={styles.loadingContainer}>

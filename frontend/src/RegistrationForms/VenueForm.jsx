@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 
 function VenueForm() {
@@ -23,7 +23,7 @@ function VenueForm() {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post("http://localhost:8080/api/venues", venue);
+      await api.post("http://localhost:8080/api/venues", venue);
       alert("✅ Venue added successfully!");
       navigate(-1);
     } catch (error) {

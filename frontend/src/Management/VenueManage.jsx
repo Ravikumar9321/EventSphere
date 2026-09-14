@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 function VenueManage() {
   const [venues, setVenues] = useState([]);
@@ -10,10 +10,9 @@ function VenueManage() {
   const fetchVenue = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8080/api/venues");
+      const response = await api.get("http://localhost:8080/api/venues");
       setVenues(response.data.data || response.data);
     } catch (error) {
-      alert("Error loading venues!");
       console.error(error);
     } finally {
       setLoading(false);
@@ -24,7 +23,7 @@ function VenueManage() {
     if (window.confirm("Are you sure you want to delete this venue?")) {
       try {
         setLoading(true);
-        await axios.delete(`http://localhost:8080/api/venues/${id}`);
+        await api.delete(`http://localhost:8080/api/venues/${id}`);
         alert("Venue deleted successfully!");
         fetchVenue(); 
       } catch (error) {

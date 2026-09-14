@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../api/api";
 
 function EventReg(){
     const { id } = useParams();
@@ -16,18 +16,18 @@ function EventReg(){
         const fetchRegisterDetails = async () => {
             setLoading(true);
             try {
-                const eventRes = await axios.get(`http://localhost:8080/api/events/${id}`);
+                const eventRes = await api.get(`http://localhost:8080/api/events/${id}`);
                 const eventData = eventRes.data.data || eventRes.data;
                 
                 setEvent(eventData);
 
                 if (eventData?.venue?.id) {
-                    const venueRes = await axios.get(`http://localhost:8080/api/venues/${eventData.venue.id}`);
+                    const venueRes = await api.get(`http://localhost:8080/api/venues/${eventData.venue.id}`);
                     setVenue(venueRes.data.data || venueRes.data);
                 }
 
                 if (eventData?.organizer?.id) {
-                    const orgRes = await axios.get(`http://localhost:8080/api/organizers/${eventData.organizer.id}`);
+                    const orgRes = await api.get(`http://localhost:8080/api/organizers/${eventData.organizer.id}`);
                     setOrganizer(orgRes.data.data || orgRes.data);
                 }
             } catch (error) {
@@ -39,42 +39,40 @@ function EventReg(){
 
         fetchRegisterDetails();
     }, [id]);
+const handlePhoneSearch = async () => {
+  if (!phoneNumber.trim() || !event?.id) {
+    alert("Please wait for event to load or enter valid phone number");
+    return; 
+  }
 
-    const handlePhoneSearch = async () => {
-        if (!phoneNumber.trim() || !event?.id) {
-            alert("Please wait for event to load or enter valid phone number");
-            return; 
-        }
-        
-        try {
-            const response = await axios.get(`http://localhost:8080/api/attendee/contact/${phoneNumber}`);
-            const attendeeData = response.data.data || response.data;
-            
-            if (attendeeData && attendeeData.id) { 
-                try {
-                   
-                    await axios.post(`http://localhost:8080/api/register/${event.id}/${attendeeData.id}`, {
-                        eventId: event.id,
-                        attendeeId: attendeeData.id
-                    });
-                    alert("✅ Event Registration successful!");
-                    setPhoneNumber(''); 
-                } catch (error) {
-        
-                    const errorMsg = error.response?.data?.message || 
-                                   error.response?.data?.error || 
-                                   "Registration failed. Try again.";
-                    alert(`❌ ${errorMsg}`);
-                }
-            }
-        } catch (error) { 
-            if(window.confirm("Phone number not registered. Do you want to register?")){
-                navigate("/register");
-            } else {
-                alert("Booking cancelled");
-            }
-        }
-    };
+  try {
+    const response = await api.get(`http://localhost:8080/api/attendee/contact/${phoneNumber}`);
+    const attendeeData = response.data.data;
+
+    if (!attendeeData) {
+      alert(response.data.message || "No attendee found with this phone number");
+      return;
+    }
+
+    // ✅ Proceed with registration
+    await api.post(`http://localhost:8080/api/register/${event.id}/${attendeeData.id}`, {
+      eventId: event.id,
+      attendeeId: attendeeData.id
+    });
+    alert("✅ Event Registration successful!");
+    setPhoneNumber('');
+  } catch (error) {
+     const errorMsg = error.response?.data?.message || "Phone number not registered";
+  alert(`❌ ${errorMsg}`);
+
+    if (window.confirm("Do you want to register now?")) {
+      navigate("/register");
+    } else {
+      alert("Booking cancelled");
+      navigate(-1);
+    }
+  }
+};
 
     if (loading) return <div style={styles.loadingContainer}>
         <div style={styles.loadingSpinner}></div>

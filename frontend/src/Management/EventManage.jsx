@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 function EventManage(){
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ function EventManage(){
     const fetchEvents = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:8080/api/events`);
+            const response = await api.get(`http://localhost:8080/api/events`);
             setEvents(response.data.data || response.data);
         } catch (error) {
             alert("Failed to load Events");
@@ -28,7 +28,7 @@ function EventManage(){
     };
 
     const handleHome = () => {
-        navigate("/"); 
+        navigate("/home"); 
     };
 
     if (loading) {

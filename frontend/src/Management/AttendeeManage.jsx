@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/api';
 
 function AttendeeManage() {
     const [attendees, setAttendees] = useState([]);
@@ -9,10 +9,10 @@ function AttendeeManage() {
     const fetchAttendee = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/attendee`);
+            const response = await api.get(`http://localhost:8080/api/attendee`);
             setAttendees(response.data.data || response.data);
         } catch (error) {
-            alert("Failed to load details");
+            console.error(error);
         } finally {
             setLoading(false);
         }
@@ -21,7 +21,7 @@ function AttendeeManage() {
     const deleteAttendee = async (id) => {
         if (window.confirm("Are you sure you want to delete this attendee?")) {
             try {
-                await axios.delete(`http://localhost:8080/api/attendee/${id}`);
+                await api.delete(`http://localhost:8080/api/attendee/${id}`);
                 alert("Deleted successfully!");
                 fetchAttendee();
             } catch (error) {

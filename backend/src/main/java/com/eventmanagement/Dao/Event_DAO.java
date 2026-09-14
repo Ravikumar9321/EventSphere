@@ -1,6 +1,6 @@
 package com.eventmanagement.Dao;
 
-import java.util.List;
+import java.util.*;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,33 +13,30 @@ import com.eventmanagement.Repository.Event_Repository;
 @Repository
 public class Event_DAO {
 	@Autowired
-	private Event_Repository er;
+	private Event_Repository repository;
 
 	public Events saveEvent(Events event) {
-		return er.save(event);
+		return repository.save(event);
 	}
 
 	public List<Events> findallEvents() {
-		return er.findAll();
+		return repository.findAll();
 	}
 
 	public Optional<Events> findEventById(int id) {
-		return er.findById(id);
+		return repository.findById(id);
 	}
 
 	public void deleteEvent(Events event) {
-		// TODO Auto-generated method stub
-		er.delete(event);
+		repository.delete(event);
 	}
 
 	public List<Attendee> getAttendeeByEventId(int eventId) {
-		// TODO Auto-generated method stub
-		return er.getAttendeeByEventId(eventId);
+		return repository.getAttendeeByEventId(eventId);
 	}
 
-	public List<Attendee> getAttendeesByOrganizerId(int oId) {
-		// TODO Auto-generated method stub
-		return er.getAttendeeByOrganizerId(oId);
+	public List<Attendee> getAttendeeByOrganizerId(int oId) {
+		return repository.getAttendeeByOrganizerId(oId);
 	}
 
 }

@@ -2,12 +2,10 @@ package com.eventmanagement.Repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import com.eventmanagement.Entity.Organizer;
+import org.springframework.data.jpa.repository.*;
+
 import com.eventmanagement.Entity.Registration;
-import com.eventmanagement.Entity.Venue;
 
 public interface Registration_Repository extends JpaRepository<Registration, Integer> {
 	

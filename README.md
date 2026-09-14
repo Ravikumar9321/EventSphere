@@ -1,138 +1,119 @@
-# EventSphere
+# 📦 EventSphere – Event Management System
 
-🛠️ Tech Stack
-Backend:
-├── Java 8+ (Streams, Lambdas, Collections)
-├── Spring Boot & Spring MVC
-├── Hibernate/JPA ORM
-├── PostgreSQL Database
-├── Maven Build Tool
-└── Postman API Testing
+ production‑ready full‑stack application for managing Organizers, Venues, Events, Attendees, and Registrations, built with Spring Boot + React.js, featuring secure JWT authentication, Swagger API documentation, and PostgreSQL database integration.
 
-Frontend:
-├── React • HTML5 • CSS3 • JavaScript
-├── React Router • Axios
-└── VS Code
+---
 
-Backend (Production-Ready)
-Full CRUD for Attendee, Event, Registration, Venue, Organizer entities
+## 🚀 Tech Stack
 
-Complex relationships: One-to-Many, Many-to-One with proper @JoinColumn
+### Backend
+- Java 21  
+- Spring Boot 3.5.5  
+- Spring Security (JWT Authentication)  
+- Spring Data JPA / Hibernate  
+- PostgreSQL  
+- Swagger/OpenAPI 3.0  
+- Maven  
 
-RESTful APIs with proper HTTP status codes & JSON handling (@JsonIgnore)
+### Frontend
+- React.js  
+- Axios (with interceptors for JWT authentication)  
+- React Router  
+- useState & useEffect  
+- Responsive CSS  
 
-@CreationTimestamp for registration & event tracking
+### Tools
 
-Unique attendee management with contact/email tracking
+- Git & GitHub  
+- Eclipse IDE  
 
-Frontend (React Dashboard)
-Responsive event listings & registration forms
+---
 
-React Router navigation: Events → Registration → Dashboard
+## 🏗️ Architecture
+**Frontend (React)** ➝ **REST API (Spring Boot)** ➝ **PostgreSQL Database**
 
-Axios integration with Spring Boot REST APIs
+Backend follows a clean layered architecture:
+- **Controller Layer** – Handles HTTP requests  
+- **Service Layer** – Business logic  
+- **Repository Layer** – Database interaction  
 
-Real-time data fetching with useState/useEffect hooks
+---
 
-Mobile-friendly HTML/CSS responsive design
+## ✨ Features
+-👥 Attendee Management – Register and track attendees with unique email/contact.
+-🎟️ Event Management – Create, update, and manage events with venue & organizer mapping.
+-🏢 Venue Management – Add and assign venues with capacity tracking.
+-👔 Organizer Management – Manage event organizers and their assigned events.
+-📋 Registration Management – Track attendee registrations for events.
+-🔒 Secure Authentication – JWT login & protected routes.
+-📘 API Documentation – Swagger UI with JWT integration.
+-🧪 Testing – CRUD coverage via Postman collections.
+---
 
-🗄️ Database Schema & Relationships
-Entities & Key Fields:
+## 🗄️ Database Design
+**Entities:**
+- Attendee → id, name, email, contact, registrations (One‑to‑Many)
+-Event → id, name, date, time (@CreationTimestamp), description, venue (Many‑to‑One), organizer (Many‑to‑One), -registrations (One‑to‑Many)
+-Organizer → id, name, email, events (One‑to‑Many)
+-Registration → id, date (@CreationTimestamp), event (Many‑to‑One), attendee (Many‑to‑One)
+-Venue → id, name, location, capacity, events (One‑to‑Many)
+---
 
-Attendee:
+## 📁 Project Structure
+| Path | Description |
+|------|-------------|
+| `backend/` | Spring Boot API |
+| `entity/` | Attendee, Event, Organizer, Registration, Venue entities |
+| `controller/` | REST Controllers |
+| `service/` | Business Logic |
+| `repository/` | JPA Repositories |
+| `frontend/` | React Application |
+| `management/` | EventList, RegistrationForm, Dashboard |
+| `doc/` | Screenshots & Documentation |
+| `README.md` | This file |
 
-id (PK), name, email, contact
+---
 
-registration (One-to-Many)
+## 🔗 REST API Endpoints
 
-Event:
+### Event APIs
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| GET    | `/api/events`      | Get all events  |
+| POST   | `/api/events`      | Create event    |
 
-id (PK), name, time (@CreationTimestamp), date, description
+### Attendee APIs
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| GET    | `/api/attendee`    | Get all attendees |
+| POST   | `/api/attendee`    | Add new attendee  |
 
-venue (Many-to-One), organizer (Many-to-One)
+### Registration APIs
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| GET    | `/api/register`      | Get all registrations     |
+| POST   | `/api/register`      | Register attendee for event |
 
-registrations (One-to-Many)
+---
 
-Organizer:
+## 🧪 How to Run Locally
 
-id (PK), name, email, organizer
-
-events (One-to-Many)
-
-Registration:
-
-id (PK), date (@CreationTimestamp)
-
-event (Many-to-One), attendee (Many-to-One)
-
-Venue:
-
-id (PK), name, location, capacity
-
-events (One-to-Many)
-
-🚀 Quick Start
-Backend Setup
-# Clone Backend
-git clone https://github.com/Ravikumar9321/EventSphere
-cd event-app
-
-# Eclipse: → Right Project → Run
-# APIs available: http://localhost:8080
-# Create React App
-npx create-react-app event-frontend
-cd event-app
-
-# Install Dependencies
-npm install axios react-router-dom
-
-# Start Frontend
-npm start
-# Runs on: http://localhost:3000
-
- database setup
-spring.datasource.url=jdbc:postgresql://localhost:5432/event_management_db
+### 1️⃣ Configure PostgreSQL
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/eventsphereDB
 spring.datasource.username=postgres
-spring.datasource.password=your_password
+spring.datasource.password=root
 spring.jpa.hibernate.ddl-auto=update
+server.port=8080
 
-📋 API Endpoints
-| Method | Endpoint                         | Description                       | Frontend Integration    |
-| ------ | -------------------------------- | --------------------------------- | ----------------------- |
-| POST   | /api/venues                      | Create venue w/ capacity          | Venue Management Page   |
-| POST   | /api/organizers                  | Create organizer                  | Organizer Dashboard     |
-| POST   | /api/events                      | Create event w/ venue & organizer | Event Creation Form     |
-| GET    | /api/events/venue/{id}           | Get events by venue               | Venue Events List       |
-| POST   | /api/attendees                   | Create attendee                   | Attendee Registration   |
-| POST   | /api/registrations               | Register attendee for event       | React Registration Form |
-| GET    | /api/registrations/attendee/{id} | Get attendee registrations        | Attendee Dashboard      |
 
-🧪 Testing
-Backend: 100% CRUD coverage via Postman collections
-Frontend: Manual testing + React Developer Tools
-Integration: Axios API calls verified across all endpoints
-Relationships: Tested @JsonIgnore serialization & @CreationTimestamp
+ ###  2️⃣ Backend Setup (Eclipse)
 
-📁 Project Structure
-Backend: src/main/java/com/eventManagement/Entity/
-├── Attendee.java      (name, email, contact, registration)
-├── Events.java        (name, time, date, venue, organizer)
-├── Organizer.java     (name, email, organizer, events)
-├── Registration.java  (date, event, attendee)
-└── Venue.java         (name, location, capacity, events)
+-->   Import the backend project into Eclipse IDE
+-->   Right‑click the project → Run As → Spring Boot App
+-->    Backend runs on: http://localhost:8080
 
-Frontend: eventsphere-frontend/src/
-├── components/
-│   ├── EventList.js
-│   ├── RegistrationForm.js
-│   └── Dashboard.js
-├── App.js (React Router)
-└── index.js (Axios setup)
-
-🔮 Future Enhancements
-JWT Authentication (Admin/Attendee roles)
-Event capacity validation & seat booking
-Payment integration (Razorpay/Stripe)
-Advanced React features 
-Docker containerization
-CI/CD pipeline setup
+###  3️⃣ Frontend Setup
+-->    cd frontend
+-->   npm install
+-->   npm start

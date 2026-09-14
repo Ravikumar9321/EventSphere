@@ -1,7 +1,7 @@
 
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 function OrganizeForm(){
     const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ function OrganizeForm(){
         
         try {
             setLoading(true);
-            await axios.post(`http://localhost:8080/api/organizers`, organizer);
+            await api.post(`http://localhost:8080/api/organizers`, organizer);
             alert("✅ Organizer Info added successfully");
         
             setOrganizer({

@@ -13,28 +13,26 @@ import com.eventmanagement.Repository.Organize_Repository;
 public class Organize_DAO {
 	
 	@Autowired
-	private Organize_Repository or;
+	private Organize_Repository repository;
 
 	public Organizer saveOrganizer(Organizer o) {
-		return or.save(o);
+		return repository.save(o);
 	}
 
 	public List<Organizer> findallOrganizer() {
-		return or.findAll();
+		return repository.findAll();
 	}
 
 	public Optional<Organizer> findOrganizerById(int id) {
-		return or.findById(id);
+		return repository.findById(id);
 	}
 
 	public void deleteOrganizer(Organizer organizer) {
-		// TODO Auto-generated method stub
-		or.delete(organizer);
+		repository.delete(organizer);
 	}
 
 	public Organizer getOrganizerDetailsByEventId(int eventId) {
-		// TODO Auto-generated method stub
-		return or.getOrganizerByEventId(eventId);
+		return repository.getOrganizerByEventId(eventId);
 	}
 
 }

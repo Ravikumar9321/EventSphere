@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 function RegisterManage() {
     const { id } = useParams();
@@ -16,32 +16,32 @@ function RegisterManage() {
         const fetchRegisterDetails = async () => {
             setLoading(true);
             try {
-                const registerRes = await axios.get(`http://localhost:8080/api/register/${id}`);
+                const registerRes = await api.get(`http://localhost:8080/api/register/${id}`);
                 const registerData = registerRes.data.data || registerRes.data;
                 setRegister(registerData);
 
                 if (registerData.attendees?.id) {
-                    const attRes = await axios.get(`http://localhost:8080/api/attendee/${registerData.attendees.id}`);
+                    const attRes = await api.get(`http://localhost:8080/api/attendee/${registerData.attendees.id}`);
                     setAttendee(attRes.data.data || attRes.data);
                 }
 
                 if (registerData.event.id) {
-                    const eventRes = await axios.get(`http://localhost:8080/api/events/${registerData.event.id}`);
+                    const eventRes = await api.get(`http://localhost:8080/api/events/${registerData.event.id}`);
                     const eventData = eventRes.data.data || eventRes.data;
                     setEvent(eventData);
 
                     if (eventData?.venue?.id) {
-                        const venueRes = await axios.get(`http://localhost:8080/api/venues/${eventData.venue.id}`);
+                        const venueRes = await api.get(`http://localhost:8080/api/venues/${eventData.venue.id}`);
                         setVenue(venueRes.data.data || venueRes.data);
                     }
 
                     if (eventData?.organizer?.id) {
-                        const orgRes = await axios.get(`http://localhost:8080/api/organizers/${eventData.organizer.id}`);
+                        const orgRes = await api.get(`http://localhost:8080/api/organizers/${eventData.organizer.id}`);
                         setOrganizer(orgRes.data.data || orgRes.data);
                     }
                 }
             } catch (error) {
-                console.error("Failed to load details:", error);
+                alert(error);
             } finally {
                 setLoading(false);
             }

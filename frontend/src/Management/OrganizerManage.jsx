@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 
 function Organizermanage(){
@@ -11,10 +11,9 @@ function Organizermanage(){
     const fetchOrganizer = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:8080/api/organizers`);
+            const response = await api.get(`http://localhost:8080/api/organizers`);
             setOrganizers(response.data.data || response.data);
         } catch (error) {
-            alert("❌ Failed to load organizers");
             console.error("Fetch error:", error);
         } finally {
             setLoading(false);
@@ -25,7 +24,7 @@ function Organizermanage(){
         try {
             if (window.confirm("Are you sure you want to delete this organizer?")) {
                 setLoading(true);
-                await axios.delete(`http://localhost:8080/api/organizers/${id}`);
+                await api.delete(`http://localhost:8080/api/organizers/${id}`);
                 alert("✅ Organizer deleted successfully!");
                 fetchOrganizer(); 
             }

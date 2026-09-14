@@ -13,33 +13,30 @@ import com.eventmanagement.Repository.Venue_Repository;
 @Repository
 public class Venue_DAO {
 	@Autowired
-	private Venue_Repository or;
+	private Venue_Repository repository;
 
 	public Venue saveVenue(Venue venue) {
-		return or.save(venue);
+		return repository.save(venue);
 	}
 
 	public List<Venue> findallVenue() {
-		return or.findAll();
+		return repository.findAll();
 	}
 
 	public Optional<Venue> findVenueById(int id) {
-		return or.findById(id);
+		return repository.findById(id);
 	}
 
 	public void deleteVenue(Venue Venue) {
-		// TODO Auto-generated method stub
-		or.delete(Venue);
+		repository.delete(Venue);
 	}
 
 	public List<Events> getEventsDetailsByVenueId(int venueId) {
-		// TODO Auto-generated method stub
-		return or.getEventsByVenueId(venueId);
+		return repository.getEventsByVenueId(venueId);
 	}
 
 	public List<Venue> getVenueDetailsBylocation(String location) {
-		// TODO Auto-generated method stub
-		return or.getEventsByLocation(location);
+		return repository.getEventsByLocation(location);
 	}
 
 }

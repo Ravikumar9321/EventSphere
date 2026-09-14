@@ -13,33 +13,32 @@ import com.eventmanagement.Repository.Attendee_Repository;
 @Repository
 public class Attendee_DAO {
 	@Autowired
-	private Attendee_Repository ar;
+	private Attendee_Repository repository;
 
 	public Attendee saveAttendee(Attendee attendee) {
-		return ar.save(attendee);
+		return repository.save(attendee);
 	}
 
 	public List<Attendee> findallAttendee() {
-		return ar.findAll();
+		return repository.findAll();
 	}
 
 	public Optional<Attendee> findAttendeeById(Integer id) {
-		return ar.findById(id);
+		return repository.findById(id);
 	}
 
 	public void deleteAttendee(Attendee attendee) {
-		// TODO Auto-generated method stub
-		ar.delete(attendee);
+		repository.delete(attendee);
 	}
 
 	public List<Registration> getRegistrationsbyattendeeId(int attendeeId) {
-		// TODO Auto-generated method stub
-		return ar.getRegistrationsbyattendeeId(attendeeId);
+		return repository.getRegistrationsbyattendeeId(attendeeId);
 	}
 
-	public Attendee getRegistrationsbyattendeeId(long contact) {
-		// TODO Auto-generated method stub
-		return ar.getAttendeeByContact(contact);
+	
+
+	public Optional<Attendee> findByContact(String contact) {
+		return repository.findByContact(contact);
 	}
 
 }
